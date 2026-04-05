@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gmail Regex Search</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="panel">
+    <div class="header">
+      <img src="icon128.png" class="logo" alt="">
+      <span class="title">Regex Search</span>
+      <span id="filter-status" class="filter-status"></span>
+    </div>
+
+    <div class="section">
+      <div class="input-group">
+        <label>Subject</label>
+        <input id="regex-subject" type="text" placeholder="e.g. ^Alert" spellcheck="false">
+      </div>
+      <div class="input-group">
+        <label>Snippet</label>
+        <input id="regex-body" type="text" placeholder="e.g. error\d+" spellcheck="false">
+      </div>
+      <div class="input-group">
+        <label>Anywhere</label>
+        <input id="regex-any" type="text" placeholder="e.g. \[Polymarket" spellcheck="false">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btn-search-inbox" class="btn-primary">Search All Inbox</button>
+      <button id="btn-clear" class="btn-secondary">Clear</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="configure-row">
+      <input type="file" id="creds-input" accept=".json" style="display:none">
+      <button id="btn-configure" class="btn-ghost">Upload credentials.json</button>
+    </div>
+
+    <div id="results" class="results"></div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

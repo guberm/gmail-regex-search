@@ -1,5 +1,8 @@
 const GMAIL_API = 'https://gmail.googleapis.com/gmail/v1/users/me';
 
+// Open side panel when the extension icon is clicked
+chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+
 // In-memory token cache (cleared when service worker sleeps)
 let cachedToken = null;
 let tokenExpiry = 0;
