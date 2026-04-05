@@ -1,0 +1,193 @@
+#gmail-regex-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 999999;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 340px;
+}
+
+.gmail-regex-header {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.gmail-regex-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gmail-regex-inputs div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.gmail-regex-inputs label {
+  width: 70px;
+  color: #555;
+  font-size: 13px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.gmail-regex-inputs input {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  outline: none;
+}
+
+.gmail-regex-inputs input:focus {
+  border-color: #1a73e8;
+}
+
+#gmail-regex-status {
+  font-weight: normal;
+  font-size: 12px;
+  color: #666;
+  margin-left: 4px;
+}
+
+.gmail-regex-header-actions {
+  position: absolute;
+  top: 14px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.gmail-regex-clear,
+.gmail-regex-configure {
+  font-size: 12px;
+  color: #1a73e8;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.gmail-regex-clear:hover,
+.gmail-regex-configure:hover {
+  color: #0056b3;
+}
+
+.gmail-regex-configure--done {
+  color: #188038;
+  text-decoration: none;
+}
+
+.gmail-regex-configure--done:hover {
+  color: #188038;
+  cursor: default;
+}
+
+/* ─── Inbox search ────────────────────────────────────────── */
+
+.gmail-regex-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#regex-search-inbox-btn {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+}
+
+#regex-search-inbox-btn:hover {
+  background: #1557b0;
+}
+
+#regex-search-inbox-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* ─── Results panel ───────────────────────────────────────── */
+
+.gmail-regex-results {
+  display: none;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
+.regex-results-header {
+  font-size: 12px;
+  color: #555;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.regex-results-list {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.regex-result-item {
+  display: block;
+  padding: 7px 4px;
+  border-bottom: 1px solid #f0f0f0;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 4px;
+}
+
+.regex-result-item:hover {
+  background: #f5f8ff;
+}
+
+.regex-result-from {
+  font-size: 12px;
+  color: #555;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.regex-result-subject {
+  font-size: 13px;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.regex-result-snippet {
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.regex-results-message {
+  font-size: 12px;
+  padding: 6px 0;
+  color: #666;
+}
+
+.regex-results-error {
+  color: #c00;
+}

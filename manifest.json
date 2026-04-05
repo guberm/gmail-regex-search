@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail Regex Search",
+  "version": "2.0",
+  "description": "Regex-powered Gmail search — filter visible emails or search your entire inbox via Gmail API.",
+  "icons": {
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "identity",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://gmail.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "css": ["style.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

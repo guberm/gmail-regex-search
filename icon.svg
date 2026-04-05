@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Gmail Envelope Shape -->
+  <rect x="10" y="24" width="108" height="76" rx="8" fill="#ffffff" stroke="#EA4335" stroke-width="10"/>
+  <path d="M 10 24 L 64 64 L 118 24" fill="none" stroke="#EA4335" stroke-width="10" stroke-linejoin="round"/>
+  
+  <!-- Magnifying Glass (Overlapping bottom right) -->
+  <circle cx="88" cy="88" r="26" fill="#f8f9fa" stroke="#4285F4" stroke-width="10" />
+  <line x1="106" y1="106" x2="124" y2="124" stroke="#4285F4" stroke-width="12" stroke-linecap="round" />
+  
+  <!-- Regex Symbol Inside Magnifier -->
+  <text x="88" y="96" font-family="monospace" font-size="22" font-weight="bold" fill="#34A853" text-anchor="middle">.*</text>
+</svg>
