@@ -10,7 +10,6 @@ function createUI() {
       <span id="gmail-regex-status"></span>
     </div>
     <div class="gmail-regex-header-actions">
-      <span id="regex-configure" class="gmail-regex-configure" title="Upload Google API credentials JSON">Configure API</span>
       <span class="gmail-regex-clear" id="regex-clear">Clear</span>
     </div>
     <input type="file" id="regex-creds-input" accept=".json" style="display:none">
@@ -21,7 +20,7 @@ function createUI() {
     </div>
     <div class="gmail-regex-actions">
       <button id="regex-search-inbox-btn">Search All Inbox</button>
-      <span id="regex-search-status"></span>
+      <button id="regex-configure" class="gmail-regex-configure-btn" title="Upload Google API credentials JSON">Upload credentials.json</button>
     </div>
     <div id="regex-results" class="gmail-regex-results"></div>
   `;
@@ -63,7 +62,7 @@ function createUI() {
       await chrome.runtime.sendMessage({ type: 'SAVE_CLIENT_ID', clientId });
       const btn = document.getElementById('regex-configure');
       btn.textContent = '✓ Configured';
-      btn.classList.add('gmail-regex-configure--done');
+      btn.classList.add('gmail-regex-configure-btn--done');
     } catch (err) {
       showResultsMessage(`Invalid JSON: ${err.message}`, 'error');
     }
@@ -74,7 +73,7 @@ function createUI() {
     if (clientId) {
       const btn = document.getElementById('regex-configure');
       btn.textContent = '✓ Configured';
-      btn.classList.add('gmail-regex-configure--done');
+      btn.classList.add('gmail-regex-configure-btn--done');
     }
   });
 }
