@@ -238,6 +238,7 @@ setTimeout(() => {
 }, 3000);
 
 const observer = new MutationObserver(() => {
+  if (!document.getElementById('regex-subject')) return; // UI not ready yet
   const { subjectStr, bodyStr, anyStr } = getPatterns();
   if (subjectStr || bodyStr || anyStr) {
     clearTimeout(window.regexFilterTimeout);
