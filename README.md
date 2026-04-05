@@ -1,73 +1,114 @@
 # Gmail Regex Search
 
-A Chrome extension that adds regex-powered email filtering to Gmail — filter the visible inbox in real time, or search your **entire inbox** via the Gmail API.
+Regex-powered Gmail search in two flavors: a **Chrome Extension** and a **Gmail Add-on** (Google Workspace).
 
-## Features
+---
 
-- **Live visible filtering** — instantly hides emails that don't match your regex as you type, no server requests
+## Chrome Extension
+
+Adds regex filtering to Gmail — filter the visible inbox in real time, or search your entire inbox via the Gmail API.
+
+### Features
+
+- **Live visible filtering** — hides emails that don't match your regex as you type, no API calls
 - **Full inbox search** — searches all emails via the Gmail API, not just what's loaded in the DOM
-- **Three match targets** — Subject, Snippet (body preview), or Anywhere (sender + subject + snippet)
-- **Clickable results** — API results link directly to each email in Gmail
-- **Floating UI** — sits unobtrusively at the bottom-right corner of Gmail
+- **Three match targets** — Subject, Body/snippet, or Anywhere (sender + subject + snippet)
+- **Clickable results** — links directly to each matching email
+- **Native side panel** — uses Chrome's built-in side panel UI
 
-## Installation
+### Installation
 
 1. Download and unzip the [latest release](https://github.com/guberm/gmail-regex-search/releases/latest)
 2. Open Chrome → `chrome://extensions/`
 3. Enable **Developer mode** (top-right toggle)
-4. Click **Load unpacked** → select the unzipped folder
-5. Open [Gmail](https://mail.google.com) — the panel appears after a few seconds
+4. Click **Load unpacked** → select the `chrome-extension/` folder
+5. Open [Gmail](https://mail.google.com) — click the extension icon to open the side panel
 
-## Usage
+### Usage
 
-### Filter visible emails
+#### Filter visible emails
 
-Type any valid JS regex into the fields and emails hide/show instantly. Leave all fields empty to show everything.
+Type any valid JS regex into the fields — emails hide/show instantly.
 
 | Field    | Matches against                     |
 | -------- | ----------------------------------- |
 | Subject  | Email subject line                  |
-| Snippet  | Body preview text                   |
+| Body     | Body preview (snippet)              |
 | Anywhere | Sender + subject + snippet combined |
 
 Examples: `^Invoice`, `error\d+`, `\[Polymarket`
 
-### Search all inbox (Gmail API)
+#### Search full inbox (Gmail API)
 
-To search beyond what's visible on screen, connect the Gmail API once:
+Requires a one-time OAuth setup:
 
-#### 1. Create Google API credentials
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/) and create a project
+1. Go to [Google Cloud Console](https://console.cloud.google.com/) → create or select a project
 2. **APIs & Services → Library** → enable **Gmail API**
-3. **APIs & Services → OAuth consent screen** → External → fill in name and emails → Save
-4. **APIs & Services → Credentials → Create Credentials → OAuth 2.0 Client ID**
-   - Application type: **Web application** ⚠️ (not Chrome Extension, not Desktop app)
-   - Under **Authorized redirect URIs**, click **Upload credentials.json** in the extension first — it will show you the exact URI to paste here
-5. **Create → Download JSON**
+3. **OAuth consent screen** → External → fill in name/emails → Save
+4. **Credentials → Create → OAuth 2.0 Client ID** → Application type: **Web application**
+   - Open the extension panel first — it shows the exact redirect URI to paste
+5. Download the JSON → click **Configure** in the extension → upload the file
 
-#### 2. Configure the extension
+On first search Google will prompt for authorization. The extension uses read-only access and never modifies or sends emails.
 
-1. In Gmail, click **Upload credentials.json** in the extension panel
-2. Select the JSON file downloaded from Google Cloud
-3. The button turns **✓ Configured**
+---
 
-> If you upload the wrong credential type, the extension will show the correct redirect URI to copy into Google Cloud Console.
+## Gmail Add-on (Google Apps Script)
 
-#### 3. Search
+A Google Workspace Add-on that runs natively inside Gmail — no Chrome required, works on web and mobile.
 
-Enter regex patterns and click **Search All Inbox**. On first use, Google will prompt you to authorize. Results appear as a scrollable list — click any to open the email.
+### Add-on Features
 
-> The extension requests read-only access (`gmail.readonly`). It never modifies or sends emails.
+- **Gmail pre-filter** — use Gmail's own search syntax (`from:`, `after:`, `subject:`) to narrow scope, then apply regex on top
+- **Full mailbox search** — paginates through all results from the query with no artificial cap
+- **Three regex fields** — Subject, Body, Any field
+- **Date in results** — each result shows sender, date, bold subject, and snippet
+- **Collapsible Advanced section** — Gmail query is hidden by default, clean form for simple use
+- **Timeout protection** — hard 25s cap with a visible warning; use a pre-filter to avoid it
+
+### Setup
+
+1. Go to [script.google.com](https://script.google.com) → **New project** → name it "Gmail Regex Search"
+2. Copy the contents of `gmail-addon/Code.gs` into `Code.gs`
+3. Open **Project Settings** → enable **"Show appsscript.json manifest file in editor"**
+4. Replace the contents of `appsscript.json` with `gmail-addon/appsscript.json`
+5. In **Project Settings → Google Cloud Platform** → set your GCP project number
+6. In GCP: **APIs & Services → Library** → enable **Gmail API**
+7. **Deploy → Test deployments → Google Workspace Add-on → Install**
+8. Open Gmail — the add-on appears in the right sidebar
+
+### Add-on Usage
+
+| Field              | Description                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| Subject            | Regex matched against email subject                          |
+| Body               | Regex matched against full plain-text body                   |
+| Any field          | Regex matched against sender + subject + snippet combined    |
+| Gmail pre-filter   | Gmail search syntax — narrows scope before regex is applied  |
+
+**Tips:**
+
+- Leave Gmail pre-filter blank → searches all inbox (may time out for large mailboxes)
+- Use `subject:keyword` or `from:email` to scope the search and avoid timeouts
+- Combine both: Gmail query narrows to hundreds of emails, regex finds the exact ones
+
+---
 
 ## File structure
 
 ```text
-├── manifest.json     Chrome extension config (Manifest V3)
-├── background.js     Service worker — Gmail API calls, OAuth token management
-├── content.js        Injected into Gmail — UI, visible filter, API result display
-├── style.css         Floating panel styles
-└── icon128.png       Extension icon
+Gmail Regex Search/
+├── chrome-extension/
+│   ├── manifest.json       Chrome extension config (Manifest V3)
+│   ├── background.js       Service worker — Gmail API, OAuth token management
+│   ├── content.js          Injected into Gmail — visible filter logic
+│   ├── sidepanel.html/js   Side panel UI
+│   ├── sidepanel.css
+│   ├── style.css
+│   └── icon128.png
+└── gmail-addon/
+    ├── appsscript.json     Apps Script manifest — scopes, triggers
+    └── Code.gs             Add-on UI (Card Service) + search logic
 ```
 
 ## License
