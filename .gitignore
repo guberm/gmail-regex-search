@@ -1,0 +1,8 @@
+# Google OAuth credential files — never commit these
+client_secret*.json
+web_client_secret*.json
+
+# Dev/helper scripts
+generate_icon.py
+download_icon.py
+get_icon.html
