@@ -206,3 +206,20 @@
 .regex-results-error {
   color: #c00;
 }
+
+.regex-redirect-uri {
+  font-family: monospace;
+  font-size: 11px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 8px;
+  margin-top: 6px;
+  cursor: pointer;
+  word-break: break-all;
+  color: #333;
+}
+
+.regex-redirect-uri:hover {
+  background: #e8e8e8;
+}

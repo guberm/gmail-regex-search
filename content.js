@@ -54,9 +54,15 @@ function createUI() {
     try {
       const text = await file.text();
       const json = JSON.parse(text);
+      const credType = Object.keys(json)[0]; // 'web', 'installed', etc.
       const clientId = json.web?.client_id || json.installed?.client_id || json.client_id;
       if (!clientId) {
         showResultsMessage('Could not find client_id in that file.', 'error');
+        return;
+      }
+      if (credType !== 'web') {
+        const { redirectUrl } = await chrome.runtime.sendMessage({ type: 'GET_REDIRECT_URL' });
+        showCredentialTypeError(redirectUrl);
         return;
       }
       await chrome.runtime.sendMessage({ type: 'SAVE_CLIENT_ID', clientId });
@@ -227,6 +233,37 @@ function hideResults() {
   const panel = document.getElementById('regex-results');
   panel.style.display = 'none';
   panel.innerHTML = '';
+}
+
+function showCredentialTypeError(redirectUrl) {
+  const panel = document.getElementById('regex-results');
+  panel.style.display = 'block';
+  panel.innerHTML = '';
+
+  const msg = document.createElement('div');
+  msg.className = 'regex-results-message regex-results-error';
+  msg.innerHTML = `Wrong credential type. You need a <strong>Web application</strong> OAuth client.<br><br>
+    In Google Cloud Console:<br>
+    1. Credentials → Create → OAuth 2.0 → <strong>Web application</strong><br>
+    2. Add this redirect URI:<br>`;
+
+  const uriBox = document.createElement('div');
+  uriBox.className = 'regex-redirect-uri';
+  uriBox.textContent = redirectUrl;
+  uriBox.title = 'Click to copy';
+  uriBox.addEventListener('click', () => {
+    navigator.clipboard.writeText(redirectUrl);
+    uriBox.textContent = '✓ Copied!';
+    setTimeout(() => (uriBox.textContent = redirectUrl), 2000);
+  });
+
+  const note = document.createElement('div');
+  note.style.marginTop = '6px';
+  note.innerHTML = '3. Download JSON → upload here';
+
+  panel.appendChild(msg);
+  panel.appendChild(uriBox);
+  panel.appendChild(note);
 }
 
 // ─── Init ──────────────────────────────────────────────────────────────────────

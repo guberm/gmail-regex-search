@@ -169,6 +169,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
 
+  if (message.type === 'GET_REDIRECT_URL') {
+    sendResponse({ redirectUrl: chrome.identity.getRedirectURL() });
+    return false;
+  }
+
   if (message.type === 'SIGN_OUT') {
     cachedToken = null;
     tokenExpiry = 0;
